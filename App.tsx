@@ -1,5 +1,5 @@
 import React from 'react';
-import MainLayout from './components/MainLayout';
+import MainLayout from './frontend/src/components/MainLayout';
 
 function App() {
   return (

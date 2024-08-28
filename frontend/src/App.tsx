@@ -1,19 +1,18 @@
 import React from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import { Home } from './pages/Home';
-import './styles/global.css';
+import MainLayout from './components/MainLayout';
 
-const App: React.FC = () => {
+function App() {
+  const handleAIRequest = async (userInput: string): Promise<any> => {
+    // Implement AI request logic here
+    // For now, return a dummy promise
+    return Promise.resolve({ response: "AI response" });
+  };
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow">
-        <Home />
-      </main>
-      <Footer />
+    <div className="App">
+      <MainLayout onAIRequest={handleAIRequest} />
     </div>
   );
-};
+}
 
 export default App;

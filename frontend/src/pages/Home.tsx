@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import MainLayout from '../components/MainLayout';
 
 export const Home = () => {
   const [message, setMessage] = useState<string>('');
@@ -9,10 +10,25 @@ export const Home = () => {
       .then(data => setMessage(data.message));
   }, []);
 
+  // Function to handle AI requests
+  const handleAIRequest = async (userInput: string) => {
+    try {
+      const response = await fetch('http://localhost:8080/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userInput }),
+      });
+      const data = await response.json();
+      return data.response;
+    } catch (error) {
+      console.error('Error fetching AI response:', error);
+      return 'Sorry, there was an error processing your request.';
+    }
+  };
+
   return (
-    <div className="container mx-auto mt-8">
-      <h1 className="text-3xl font-bold mb-4">Welcome to My React App</h1>
-      <p className="text-lg">{message}</p>
-    </div>
+    <MainLayout onAIRequest={handleAIRequest} />
   );
 };
