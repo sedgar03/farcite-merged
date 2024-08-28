@@ -4,7 +4,7 @@ export const Home = () => {
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
-    fetch('http://localhost:8000')
+    fetch('http://localhost:8080')
       .then(response => response.json())
       .then(data => setMessage(data.message));
   }, []);
