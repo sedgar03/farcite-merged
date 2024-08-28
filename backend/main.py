@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Body, Request
+from fastapi import FastAPI, HTTPException, Body
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import logging
@@ -24,6 +24,8 @@ async def read_root():
 
 @app.post("/api/send_message")
 async def send_message(message: str = Body(..., embed=True)):
-    return JSONResponse(content={"received_message": message})
+    logger.info(f"Received message: {message}")
+    processed_message = ' '.join(message)
+    return JSONResponse(content={"received_message": processed_message})
 
 logger.info("FastAPI application initialized")

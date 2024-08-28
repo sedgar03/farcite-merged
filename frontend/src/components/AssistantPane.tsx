@@ -11,9 +11,7 @@ interface AssistantPaneProps {
 }
 
 const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }) => {
-  const [messages, setMessages] = useState([
-    { role: "assistant", content: "Hello! How can I assist you today?" },
-  ]);
+  const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -23,17 +21,30 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
 
   useEffect(scrollToBottom, [messages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim()) {
-      setMessages([...messages, { role: "user", content: input }]);
+      setMessages(prev => [...prev, { role: "user", content: input }]);
       setInput("");
-      // Simulate assistant response
-      setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: "Thank you for your message. How else can I help you?" },
-        ]);
-      }, 1000);
+
+      try {
+        const response = await fetch('http://localhost:8080/api/send_message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: input }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setMessages(prev => [...prev, { role: "assistant", content: data.received_message }]);
+      } catch (error) {
+        console.error('Error:', error);
+        setMessages(prev => [...prev, { role: "assistant", content: "Sorry, there was an error processing your request." }]);
+      }
     }
   };
 
