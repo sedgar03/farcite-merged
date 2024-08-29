@@ -25,7 +25,8 @@
     }
   },
   "include": [
-    "frontend/src"
+    "frontend/src",
+    "src"
   ],
   "exclude": [
     "node_modules"

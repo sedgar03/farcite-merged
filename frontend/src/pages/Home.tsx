@@ -24,7 +24,7 @@ export const Home = () => {
       return data.response;
     } catch (error) {
       console.error('Error fetching AI response:', error);
-      return 'Sorry, there was an error processing your request.';
+      return 'Sorryyyyy, there was an error processing your request.';
     }
   };
 
