@@ -43,7 +43,7 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
         setMessages(prev => [...prev, { role: "assistant", content: data.received_message }]);
       } catch (error) {
         console.error('Error:', error);
-        setMessages(prev => [...prev, { role: "assistant", content: "Sooorry, there was an error processing your request." }]);
+        setMessages(prev => [...prev, { role: "assistant", content: "Swooorry, there was an error processing your request." }]);
       }
     }
   };

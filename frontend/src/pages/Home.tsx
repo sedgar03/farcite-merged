@@ -13,7 +13,7 @@ export const Home = () => {
   // Function to handle AI requests
   const handleAIRequest = async (userInput: string) => {
     try {
-      const response = await fetch('http://localhost:8080/ai', {
+      const response = await fetch('http://localhost:8080/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -21,10 +21,10 @@ export const Home = () => {
         body: JSON.stringify({ message: userInput }),
       });
       const data = await response.json();
-      return data.response;
+      return data;
     } catch (error) {
       console.error('Error fetching AI response:', error);
-      return 'Sorryyyyy, there was an error processing your request.';
+      return { response: 'Sorry, THEEEEEER was an error processing your request.' };
     }
   };
 

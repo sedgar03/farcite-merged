@@ -32,4 +32,10 @@ async def send_message(message: str = Body(..., embed=True)):
     processed_message = ' '.join(message)
     return JSONResponse(content={"received_message": processed_message})
 
+@app.post("/api/chat")
+async def chat(message: str = Body(..., embed=True)):
+    logger.info(f"Received chat message: {message}")
+    processed_message = ' '.join(message)
+    return JSONResponse(content={"response": processed_message})
+
 logger.info("FastAPI application initialized")
