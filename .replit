@@ -8,10 +8,12 @@ run = ["sh", "-c", "bash run.sh"]
 channel = "stable-24_05"
 
 [[ports]]
+localPort = 80
+externalPort = 80
+
+[[ports]]
 localPort = 3000
-externalPort = 3000
 
 [[ports]]
 localPort = 8080
-externalPort = 8080
-    
+

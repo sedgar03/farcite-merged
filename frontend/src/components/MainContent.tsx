@@ -72,7 +72,7 @@ const MainContent: React.FC<MainContentProps> = ({ selectedTool, onAIRequest }) 
     <div className="flex-1 overflow-hidden">
       <div className="flex items-center p-4 border-b">
         <Search className="mr-2 h-4 w-4 text-muted-foreground" />
-        <Input className="flex-1" placeholder="Search..." />
+        <Input className="flex-1" placeholder="Enter DOI..." />
         <Select defaultValue="all">
           <SelectTrigger className="w-[120px] ml-2">
             <SelectValue />
