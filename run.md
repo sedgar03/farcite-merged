@@ -10,7 +10,8 @@ logger = logging.getLogger(__name__)
 def run_backend():
     os.chdir('backend')
     port = '8080'
-    host = '0.0.0.0'
+    # host = '0.0.0.0'
+    host = '127.0.0.1'  # Changed to localhost
     return subprocess.Popen(['uvicorn', 'main:app', '--host', host, '--port', port])
 
 def wait_for_backend(timeout=30):

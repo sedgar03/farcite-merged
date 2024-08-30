@@ -5,7 +5,7 @@ export const Home = () => {
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
-    fetch('http://localhost:8080')
+    fetch('http://127.0.0.1:8080')
       .then(response => response.json())
       .then(data => setMessage(data.message));
   }, []);
@@ -13,7 +13,7 @@ export const Home = () => {
   // Function to handle AI requests
   const handleAIRequest = async (userInput: string) => {
     try {
-      const response = await fetch('http://localhost:8080/api/chat', {
+      const response = await fetch('http://127.0.0.1:8080/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
