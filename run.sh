@@ -15,7 +15,7 @@ start_frontend() {
     cd frontend
     npm install
     npm run build
-    npx serve -s build -l 3000 &
+    npx serve -s build -l 3000
     FRONTEND_PID=$!
     cd ..
     echo "Frontend started with PID $FRONTEND_PID"
