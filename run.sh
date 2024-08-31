@@ -23,7 +23,7 @@ start_frontend() {
 
 # Start both services
 start_frontend
-sleep 20
+sleep 300
 start_backend
 
 
