@@ -15,13 +15,14 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
     try {
       console.log("Sending request to backend...");
       const backendUrl = `https://${window.location.hostname}:8080/api/hello`;
+      // const backendUrl = `https://0.0.0.0:8080/api/hello`;
       console.log("Backend URL:", backendUrl);
       
       const response = await fetch(`${backendUrl}`);
       console.log("Response status:", response.status);
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP errror! status: ${response.status}`);
       }
 
       const data = await response.json();

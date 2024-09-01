@@ -1,8 +1,16 @@
 run = "bash run.sh"
+
 modules = ["nodejs-20", "python-3.12", "web", "bash", "nix"]
 
+# [
+# env
+# ]
+# PATH = "/home/runner/${REPL_SLUG}/node_modules/.bin:$PATH"
+
+
 [deployment]
-run = ["sh", "-c", "bash run.sh"]
+run = ["sh", "-c", "bash deploy.sh"]
+build = ["sh", "-c", "bash build.sh"]
 
 [nix]
 channel = "stable-24_05"

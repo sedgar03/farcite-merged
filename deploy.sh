@@ -3,7 +3,6 @@
 # Function to start the backend
 start_backend() {
     cd backend
-    pip install -r requirements.txt
     uvicorn main:app --host 0.0.0.0 --port 8080 &
     BACKEND_PID=$!
     cd ..
@@ -13,9 +12,7 @@ start_backend() {
 # Function to start the frontend
 start_frontend() {
     cd frontend
-    npm install
-    npm run build
-    npx serve -s build -l 3000
+    npx serve -s build -l 3000 &
     FRONTEND_PID=$!
     cd ..
     echo "Frontend started with PID $FRONTEND_PID"
@@ -23,9 +20,8 @@ start_frontend() {
 
 # Start both services
 start_frontend
-sleep 10
+sleep 5
 start_backend
-
 
 # Keep the script running
 echo "Both services started. Press Ctrl+C to exit."
