@@ -84,14 +84,14 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
   return (
     <div
       className={cn(
-        "flex flex-col h-full bg-white shadow-lg transition-all duration-300 ease-in-out border-l",
+        "flex flex-col h-full bg-background border-l transition-all duration-300 ease-in-out",
         isOpen ? "w-96" : "w-0"
       )}
     >
       {isOpen && (
         <>
-          <div className="flex items-center justify-between p-4 border-b bg-gray-50">
-            <h2 className="text-lg font-semibold text-gray-800">Assistant</h2>
+          <div className="flex items-center justify-between p-4 border-b">
+            <h2 className="text-lg font-semibold">Assistant</h2>
             <Button variant="ghost" size="icon" onClick={toggleAssistant}>
               <ChevronRight className="h-4 w-4" />
             </Button>
@@ -113,7 +113,7 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
                 <div
                   className={cn(
                     "rounded-lg px-3 py-2 max-w-[80%]",
-                    message.role === "user" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-800"
+                    message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
                   )}
                 >
                   {message.content}
@@ -127,16 +127,15 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
             ))}
             <div ref={messagesEndRef} />
           </div>
-          <div className="p-4 border-t bg-gray-50">
+          <div className="p-4 border-t">
             <div className="flex items-center gap-2">
               <Input
-                className="flex-1 bg-white"
                 placeholder="Type a message..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSend()}
               />
-              <Button onClick={handleSend} size="icon" className="bg-blue-500 hover:bg-blue-600 text-white">
+              <Button onClick={handleSend} size="icon">
                 <Send className="h-4 w-4" />
               </Button>
             </div>

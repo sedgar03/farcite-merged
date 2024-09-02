@@ -31,8 +31,8 @@ const MainContent: React.FC<MainContentProps> = ({ selectedTool, onAIRequest }) 
   }
 
   return (
-    <div className="flex-1 overflow-hidden flex flex-col bg-white shadow-lg">
-      <div className="flex items-center p-4 border-b bg-gray-50">
+    <div className="flex-1 overflow-hidden flex flex-col bg-main-content text-gray-900">
+      <div className="flex items-center p-4 border-b border-gray-200">
         <Search className="mr-2 h-4 w-4 text-gray-500" />
         <Input className="flex-1 bg-white" placeholder="Search..." />
         <Select defaultValue="all">

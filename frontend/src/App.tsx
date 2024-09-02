@@ -1,7 +1,7 @@
 import React from 'react';
 import { TooltipProvider } from './components/tooltip';
 import MainLayout from './components/MainLayout';
-import './styles/globals.css';
+import './styles/globals.css';  // Make sure this points to the correct file
 
 function App() {
   const handleAIRequest = async (userInput: string): Promise<any> => {
