@@ -1,5 +1,7 @@
 import React from 'react';
+import { TooltipProvider } from './components/tooltip';
 import MainLayout from './components/MainLayout';
+import './styles/globals.css';
 
 function App() {
   const handleAIRequest = async (userInput: string): Promise<any> => {
@@ -9,9 +11,11 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <MainLayout onAIRequest={handleAIRequest} />
-    </div>
+    <TooltipProvider>
+      <div className="App">
+        <MainLayout onAIRequest={handleAIRequest} />
+      </div>
+    </TooltipProvider>
   );
 }
 

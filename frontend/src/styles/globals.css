@@ -1,0 +1,23 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Add any custom styles here */
+.ProseMirror {
+  min-height: 100px;
+  padding: 1rem 0;
+  outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Ensure proper shading and smooth look for inputs */
+.input, .select {
+  @apply shadow-sm rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}

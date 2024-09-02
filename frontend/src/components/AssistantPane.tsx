@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, Send } from 'lucide-react';
-import { cn } from './utils';
+import { ChevronRight, Send } from 'lucide-react';
+import { cn } from '../lib/utils';
 import { Button } from './button';
 import { Input } from './input';
 import { Avatar, AvatarFallback } from './avatar';
@@ -19,6 +19,8 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(300);
+  const [isResizing, setIsResizing] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -60,17 +62,38 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
     }
   };
 
+  const startResizing = (e: React.MouseEvent) => {
+    setIsResizing(true);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', stopResizing);
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isResizing) {
+      const newWidth = window.innerWidth - e.clientX;
+      setWidth(Math.max(200, Math.min(600, newWidth)));
+    }
+  };
+
+  const stopResizing = () => {
+    setIsResizing(false);
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', stopResizing);
+  };
+
   return (
-    <div className={cn(
-      "flex flex-col bg-background border-r transition-all duration-300 ease-in-out",
-      isOpen ? "w-[300px]" : "w-0"
-    )}>
+    <div
+      className={cn(
+        "flex flex-col h-full bg-white shadow-lg transition-all duration-300 ease-in-out border-l",
+        isOpen ? "w-96" : "w-0"
+      )}
+    >
       {isOpen && (
         <>
-          <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-lg font-semibold">Assistant</h2>
+          <div className="flex items-center justify-between p-4 border-b bg-gray-50">
+            <h2 className="text-lg font-semibold text-gray-800">Assistant</h2>
             <Button variant="ghost" size="icon" onClick={toggleAssistant}>
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
           <div className="flex-1 overflow-auto p-4 space-y-4">
@@ -90,7 +113,7 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
                 <div
                   className={cn(
                     "rounded-lg px-3 py-2 max-w-[80%]",
-                    message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
+                    message.role === "user" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-800"
                   )}
                 >
                   {message.content}
@@ -104,15 +127,16 @@ const AssistantPane: React.FC<AssistantPaneProps> = ({ isOpen, toggleAssistant }
             ))}
             <div ref={messagesEndRef} />
           </div>
-          <div className="p-4 border-t">
+          <div className="p-4 border-t bg-gray-50">
             <div className="flex items-center gap-2">
               <Input
+                className="flex-1 bg-white"
                 placeholder="Type a message..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSend()}
               />
-              <Button onClick={handleSend} size="icon">
+              <Button onClick={handleSend} size="icon" className="bg-blue-500 hover:bg-blue-600 text-white">
                 <Send className="h-4 w-4" />
               </Button>
             </div>
