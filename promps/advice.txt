@@ -1,0 +1,5 @@
+Write complete, functional code for every step. Do not omit any details or use placeholders. Implement the entire feature, including all necessary components, error handling, and edge cases. Ensure the code is production-ready and follows best practices.
+
+Do not get lazy. Write everything that is needed.
+
+Your goal is to completely finish the feature.
