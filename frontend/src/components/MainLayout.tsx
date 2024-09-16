@@ -14,17 +14,15 @@ const MainLayout: React.FC<MainLayoutProps> = ({ onAIRequest }) => {
   const toggleAssistant = () => setIsAssistantOpen(prev => !prev);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-100">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar 
         isAssistantOpen={isAssistantOpen}
         selectedTool={selectedTool} 
         setSelectedTool={setSelectedTool} 
         toggleAssistant={toggleAssistant}
       />
-      <div className="flex-1 flex overflow-hidden">
-        <MainContent selectedTool={selectedTool} onAIRequest={onAIRequest} />
-        <AssistantPane isOpen={isAssistantOpen} toggleAssistant={toggleAssistant} />
-      </div>
+      <MainContent selectedTool={selectedTool} onAIRequest={onAIRequest} />
+      <AssistantPane isOpen={isAssistantOpen} toggleAssistant={toggleAssistant} />
     </div>
   );
 };
