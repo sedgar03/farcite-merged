@@ -1,110 +1,64 @@
-import React, { useCallback, useRef } from 'react';
-import StarterKit from '@tiptap/starter-kit';
-import { Editor } from '@tiptap/react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./dropdown-menu";
+import React from 'react';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 
-interface MemoContentProps {
-  content: string;
-  onContentChange: (content: string) => void;
-  onAIRequest: (userInput: string) => Promise<any>;
-}
-
-const MemoContent: React.FC<MemoContentProps> = ({ content, onContentChange, onAIRequest }) => {
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: content,
-    onUpdate: ({ editor }) => {
-      onContentChange(editor.getHTML());
+const MemoContent: React.FC = () => {
+  const initialConfig = {
+    namespace: 'MemoEditor',
+    theme: {
+      // Customize the editor's theme here (optional)
     },
-  });
-
-  const handleContextMenu = useCallback(
-    (event: React.MouseEvent) => {
-      event.preventDefault();
-      if (editor) {
-        const { state } = editor;
-        const { from, to } = state.selection;
-        const selectedText = state.doc.textBetween(from, to, ' ');
-
-        // Show custom context menu
-        setContextMenuPosition({ x: event.clientX, y: event.clientY });
-        setIsContextMenuOpen(true);
-        setSelectedText(selectedText);
-      }
+    onError: (error: Error) => {
+      console.error('Editor Error: ', error);
     },
-    [editor]
-  );
-
-  const [isContextMenuOpen, setIsContextMenuOpen] = React.useState(false);
-  const [contextMenuPosition, setContextMenuPosition] = React.useState({ x: 0, y: 0 });
-  const [selectedText, setSelectedText] = React.useState('');
-
-  const handleExpandUsingContext = () => {
-    if (editor) {
-      const { state } = editor;
-      const { from, to } = state.selection;
-      const expandedText = selectedText.split('').join('-');
-      editor.chain().focus().insertContentAt({ from, to }, expandedText).run();
-    }
-    setIsContextMenuOpen(false);
-  };
-
-  const handlePolish = () => {
-    if (editor) {
-      const { state } = editor;
-      const { from, to } = state.selection;
-      editor.chain().focus().insertContentAt({ from, to }, 'Fancy mumbo jumbo').run();
-    }
-    setIsContextMenuOpen(false);
-  };
-
-  const handleReplaceText = () => {
-    if (editor) {
-      const { state } = editor;
-      const { from, to } = state.selection;
-      editor.chain().focus().insertContentAt({ from, to }, 'COOL STUFF DUDE').run();
-    }
-    setIsContextMenuOpen(false);
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto" onContextMenu={handleContextMenu}>
-      <EditorContent editor={editor} className="prose max-w-none" />
-      <DropdownMenu open={isContextMenuOpen} onOpenChange={setIsContextMenuOpen}>
-        <DropdownMenuTrigger asChild>
-          <div
-            style={{
-              position: 'fixed',
-              left: contextMenuPosition.x,
-              top: contextMenuPosition.y,
-              visibility: isContextMenuOpen ? 'visible' : 'hidden',
-            }}
-          />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
-          <DropdownMenuItem onSelect={() => editor?.chain().focus().toggleBold().run()}>
-            Bold
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => editor?.chain().focus().toggleItalic().run()}>
-            Italic
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => editor?.chain().focus().toggleStrike().run()}>
-            Strike
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={handleExpandUsingContext}>
-            Expand using context
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={handlePolish}>
-            Polish
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={handleReplaceText}>
-            Replace text
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <LexicalComposer initialConfig={initialConfig}>
+      <div
+        className="editor-container"
+        style={{
+          border: '1px solid #ccc',
+          padding: '10px',
+          minHeight: '100%', // Allow the editor to take full height
+          height: '100vh',   // Set height to 100% of the viewport height
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+        }}
+      >
+        <RichTextPlugin
+          contentEditable={
+            <ContentEditable
+              className="editor-input"
+              style={{
+                outline: 'none',
+                flex: 1,  // Ensure the editor takes up the full available space
+                minHeight: '100%',  // Take up the entire vertical space
+              }}
+            />
+          }
+          placeholder={
+            <div
+              className="editor-placeholder"
+              style={{
+                color: '#888',
+                position: 'absolute', // Ensure the placeholder covers the entire editor area
+                top: 10,              // Adjust the position to avoid clicking issues
+                left: 10,
+              }}
+            >
+              Start writing...
+            </div>
+          }
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <HistoryPlugin />
+      </div>
+    </LexicalComposer>
   );
 };
 
