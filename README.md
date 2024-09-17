@@ -1,7 +1,7 @@
 # farcite-merged
 
 ### Current Status
-Trying to get shadcn working again
+Trying to get Lexical into my memo writer
 
 ### Old Notes:
 

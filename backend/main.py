@@ -9,7 +9,7 @@ app = FastAPI()
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with your frontend URL
+    allow_origins=["*"],  # In production, replace with specific origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -34,7 +34,7 @@ async def read_hello():
 @app.post("/api/process_message")
 async def process_message(message: Message):
     logger.info(f"Received message: {message.message}")
-    processed_message = " ".join(message.message)
+    processed_message = message.message.upper()  # Simple processing: convert to uppercase
     logger.info(f"Processed message: {processed_message}")
     return {"processed_message": processed_message}
 
